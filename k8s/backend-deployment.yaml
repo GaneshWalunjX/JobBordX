@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobboardx-backend
+  namespace: jobboardx-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jobboardx-backend
+  template:
+    metadata:
+      labels:
+        app: jobboardx-backend
+    spec:
+      containers:
+        - name: backend
+          image: ganesh-cl7/jobbordx-backend:v1.0.1
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: jobboardx-storage
+              mountPath: /app/data
+      volumes:
+        - name: jobboardx-storage
+          persistentVolumeClaim:
+            claimName: jobboardx-pvc

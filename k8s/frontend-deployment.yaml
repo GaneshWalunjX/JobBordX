@@ -1,0 +1,23 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: jobboardx-frontend
+  namespace: jobboardx-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jobboardx-frontend
+  template:
+    metadata:
+      labels:
+        app: jobboardx-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ganesh-cl7/jobbordx-frontend:v1.0.1
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: production
