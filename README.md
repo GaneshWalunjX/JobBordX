@@ -1,46 +1,50 @@
- JobBordX — Full-Stack Job Board App
+---
 
-A full-stack job board application built with React (frontend) and Flask (backend), featuring modular CRUD routes, clean UI, and ready for Docker + CI/CD integration.
+# JobBordX — Full-Stack Job Board App
+
+A full-stack job board application built with React (frontend) and Flask (backend).
+The project includes **Dockerized services, CI/CD with Jenkins, and Kubernetes deployment to demonstrate DevOps readiness.
 
 ---
 
- Features
+## Features
 
-- Post and view job listings
-- Responsive UI with React + Tailwind CSS
-- Flask backend with SQLite database
-- Modular architecture for scalability
-- RESTful API integration
-- Ready for Dockerization and Jenkins CI/CD
-
----
-
- Tech Stack
-
-| Layer      | Tech                     |
-|------------|--------------------------|
-| Frontend   | React, Tailwind CSS      |
-| Backend    | Flask, SQLAlchemy        |
-| Database   | SQLite                   |
-| DevOps     | Docker, Jenkins (coming) |
+* Post and view job listings
+* Responsive UI with React + Tailwind CSS
+* Flask backend with SQLite database
+* RESTful API with modular CRUD routes
+* Dockerized frontend and backend
+* Jenkins pipeline for CI/CD
+* Kubernetes deployment support
 
 ---
 
- Setup Instructions
+## Tech Stack
 
-1. Clone the repo
+* **Frontend:** React, Tailwind CSS
+* **Backend:** Flask, SQLAlchemy
+* **Database:** SQLite
+* **DevOps:** Docker, Docker Compose, Jenkins, Kubernetes
+
+---
+
+## Setup Instructions
+
+1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/JobBordX.git
+git clone https://github.com/GaneshWalunjX/JobBordX.git
 cd JobBordX
-### 2. Install backend dependencies
+```
+
+2. Backend setup
 
 ```bash
 cd backend
 pip install -r instance/requirements.txt
 ```
 
-### 3. Install frontend dependencies
+3. Frontend setup
 
 ```bash
 cd ../frontend
@@ -50,47 +54,41 @@ npm start
 
 ---
 
-##  Docker Setup (Coming Soon)
+## Docker Setup
+
+Run the entire stack using Docker Compose:
 
 ```bash
 docker-compose up --build
 ```
 
----
-
-##  Folder Structure
-
-```
-JobBordX/
-├── backend/
-│   ├── app/
-│   ├── instance/
-│   └── run.py
-├── frontend/
-│   ├── src/components/
-│   └── public/
-```
+This builds and runs both frontend and backend containers.
 
 ---
 
-##  Roadmap
+## CI/CD with Jenkins
 
-- [x] Full-stack CRUD integration
-- [x] Styled UI with Tailwind
-- [x] Backend seeding and validation
-- [ ] Dockerize frontend and backend
-- [ ] Add Jenkins CI/CD pipeline
-- [ ] Deploy to cloud (Render/Heroku/AWS)
+* Jenkinsfile defines automated build, test, and deployment pipelines.
+* Integrated with Docker for containerized builds.
+* Configurable for Kubernetes deployment.
 
 ---
 
-##  Notes
+## Kubernetes Deployment
+
+* Includes manifests for frontend and backend pods, services, and deployments.
+* Ready to run on any Kubernetes cluster (minikube, EKS, GKE, etc.).
+
+---
+
+## Notes
 
 This project demonstrates:
 
-- Full-stack integration mindset
-- DevOps readiness with Docker & CI/CD
-- Clean UI and responsive design
-- Real-world backend architecture
+* Full-stack integration with React + Flask
+* Production-ready Dockerization (frontend & backend)
+* Jenkins-based CI/CD pipeline
+* Kubernetes deployment workflow
+* Clean UI and scalable architecture
 
-```
+---
