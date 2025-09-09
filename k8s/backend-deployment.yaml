@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ganesh-cl7/jobbordx-backend:v1.0.1
+          image: GaneshWalunjX/jobbordx-backend:v1.0.1
           ports:
             - containerPort: 5000
           volumeMounts:
