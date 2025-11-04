@@ -2,8 +2,9 @@ pipeline {
   agent any
 
   environment {
-    COMPOSE_FILE = 'docker-compose.yml'
-    PORT = '3000'
+    K8S_NAMESPACE = 'jobboardx-ns'
+    FRONTEND_PORT = '3000'
+    BACKEND_PORT = '5000'
   }
 
   stages {
@@ -13,34 +14,55 @@ pipeline {
       }
     }
 
-    stage('Build & Run') {
+    stage('Deploy Green Versions') {
       steps {
-        sh 'docker-compose -f $COMPOSE_FILE up -d --build'
+        sh '''
+          echo "Applying green deployments..."
+          kubectl apply -f backend-deployment.yaml -n $K8S_NAMESPACE
+          kubectl apply -f frontend-deployment.yaml -n $K8S_NAMESPACE
+
+          echo "Waiting for rollout to complete..."
+          kubectl rollout status deployment/jobboardx-backend-green -n $K8S_NAMESPACE
+          kubectl rollout status deployment/jobboardx-frontend-green -n $K8S_NAMESPACE
+        '''
       }
     }
 
     stage('Health Check') {
       steps {
         sh '''
-          echo "Checking backend..."
-          curl -f http://localhost:5000/health || exit 1
+          echo "Checking backend health..."
+          kubectl run temp-backend-check --rm -i --restart=Never --image=curlimages/curl -n $K8S_NAMESPACE -- \
+            curl -f http://jobboardx-backend-service:$BACKEND_PORT/health || exit 1
 
-          echo "Checking frontend..."
-          curl -f http://localhost:$PORT || exit 1
+          echo "Checking frontend health..."
+          kubectl run temp-frontend-check --rm -i --restart=Never --image=curlimages/curl -n $K8S_NAMESPACE -- \
+            curl -f http://jobboardx-frontend-service:$FRONTEND_PORT || exit 1
         '''
       }
     }
 
-    stage('Archive Logs') {
+    stage('Switch Traffic to Green') {
       steps {
-        sh 'docker-compose logs > logs.txt'
-        archiveArtifacts artifacts: 'logs.txt', fingerprint: true
+        sh '''
+          echo "Switching service selectors to green versions..."
+          kubectl patch service jobboardx-backend-service -n $K8S_NAMESPACE \
+            -p '{"spec":{"selector":{"app":"jobboardx-backend","version":"green"}}}'
+
+          kubectl patch service jobboardx-frontend-service -n $K8S_NAMESPACE \
+            -p '{"spec":{"selector":{"app":"jobboardx-frontend","version":"green"}}}'
+        '''
       }
     }
 
-    stage('Cleanup') {
+    stage('Archive Deployment Status') {
       steps {
-        sh 'docker-compose down'
+        sh '''
+          kubectl get pods -n $K8S_NAMESPACE > pods.txt
+          kubectl describe deployment jobboardx-backend-green -n $K8S_NAMESPACE >> pods.txt
+          kubectl describe deployment jobboardx-frontend-green -n $K8S_NAMESPACE >> pods.txt
+        '''
+        archiveArtifacts artifacts: 'pods.txt', fingerprint: true
       }
     }
   }
