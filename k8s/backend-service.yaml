@@ -1,11 +1,12 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: jobboardx-backend-service
   namespace: jobboardx-ns
 spec:
   selector:
     app: jobboardx-backend
+    version: green  
   ports:
     - protocol: TCP
       port: 5000

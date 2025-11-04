@@ -1,12 +1,12 @@
-kind: VerticalPodAutoscaler
 apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
 metadata:
   name: jobboardx-backend-vpa
   namespace: jobboardx-ns
 spec:
   targetRef:
-    apiVersion: "apps/v1"
+    apiVersion: apps/v1
     kind: Deployment
-    name: jobboardx-backend
+    name: jobboardx-backend-green
   updatePolicy:
     updateMode: "Auto"
