@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from app import db  # ✅ Now works because __init__.py exposes db
+from app import db  
 
 def create_app():
     app = Flask(__name__)
