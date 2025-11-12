@@ -13,6 +13,6 @@ COPY postcss.config.js ./
 
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 300
 
 CMD ["npx", "serve", "-s", "build"]
