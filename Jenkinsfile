@@ -61,7 +61,7 @@ pipeline {
           kubectl get pods -n $K8S_NAMESPACE > pods.txt
           kubectl describe deployment jobboardx-backend-green -n $K8S_NAMESPACE >> pods.txt
           kubectl describe deployment jobboardx-frontend-green -n $K8S_NAMESPACE >> pods.txt
-        '''
+        ''
         archiveArtifacts artifacts: 'pods.txt', fingerprint: true
       }
     }
