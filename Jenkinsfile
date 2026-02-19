@@ -24,7 +24,7 @@ pipeline {
           echo "Waiting for rollout to complete..."
           kubectl rollout status deployment/jobboardx-backend-green -n $K8S_NAMESPACE
           kubectl rollout status deployment/jobboardx-frontend-green -n $K8S_NAMESPACE
-        ''
+        '''
       }
     }
 
