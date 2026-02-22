@@ -25,7 +25,7 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - jobboardx-net
+      - jobboardx-ne
 
 volumes:
   jobs-db-data:
